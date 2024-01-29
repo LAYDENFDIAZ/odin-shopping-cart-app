@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ProductCard from "../components/ProductCard";
-import axios from "axios";
+import { downloadProducts } from "../data/productsApi";
 
 const dummyProducts = [
   {
@@ -25,16 +25,7 @@ function Home() {
   const [products, setProducts] = useState(dummyProducts);
 
   useEffect(() => {
-    async function downloadProducts() {
-      try {
-        const response = await axios.get("https://fakestoreapi.com/products");
-        const data = response.data;
-        setProducts(data);
-      } catch (error) {
-        console.log(error);
-      }
-    }
-    downloadProducts();
+    downloadProducts(setProducts);
   }, []);
 
   return (
