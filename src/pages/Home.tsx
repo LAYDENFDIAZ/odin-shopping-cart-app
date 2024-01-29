@@ -33,7 +33,38 @@ function Home() {
     //localStorage.setItem("cart", JSON.stringify([...cart, product]));
   };
 
-  let quantity = 0;
+  const removeItemFromCart = (product) => {
+    const updatedCart = cart;
+    updatedCart.removeItem(product.id);
+    updatedCart.log();
+    // Update state
+    setCart({ ...updatedCart });
+
+    // Update local storage
+    //localStorage.setItem("cart", JSON.stringify([...cart, product]));
+  };
+
+  const increaseQuantity = (productId) => {
+    const updatedCart = cart;
+    updatedCart.increaseQuantity(productId);
+    updatedCart.log();
+    // Update state
+    setCart({ ...updatedCart });
+
+    // Update local storage
+    //localStorage.setItem("cart", JSON.stringify([...cart, product]));
+  };
+
+  const decreaseQuantity = (productId) => {
+    const updatedCart = cart;
+    updatedCart.decreaseQuantity(productId);
+    updatedCart.log();
+    // Update state
+    setCart({ ...updatedCart });
+
+    // Update local storage
+    //localStorage.setItem("cart", JSON.stringify([...cart, product]));
+  };
 
   return (
     <div className="container mb-4">
@@ -49,17 +80,21 @@ function Home() {
             ) : (
               <div className="d-flex align-items-center flex-column mt-2">
                 <div className="d-flex align-items-center justify-content-center mb-2">
-                  <Button>-</Button>
+                  <Button onClick={() => decreaseQuantity(product.id)}>
+                    -
+                  </Button>
                   <div>
                     <span className="fs-3">{cart.getQuantity(product.id)}</span>{" "}
                     in cart
                   </div>
-                  <Button>+</Button>
+                  <Button onClick={() => increaseQuantity(product.id)}>
+                    +
+                  </Button>
                 </div>
                 <Button
                   variant="danger"
                   size="sm"
-                  onClick={() => removeFromCart(product.id)}
+                  onClick={() => removeItemFromCart(product)}
                 >
                   Remove
                 </Button>
