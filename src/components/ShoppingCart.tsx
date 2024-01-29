@@ -1,15 +1,22 @@
-// ShoppingCart.js
 import React from "react";
+import { CartItem } from "../cart";
 
-const ShoppingCart = ({ cart }) => {
+interface ShoppingCartProps {
+  cart: {
+    getItems: () => CartItem[];
+    getQuantity: (productId: number) => number;
+    getTotal: () => number;
+  };
+}
+
+const ShoppingCart: React.FC<ShoppingCartProps> = ({ cart }) => {
   return (
     <div>
       <h2>Shopping Cart</h2>
       <ul>
         {cart.getItems().map((item) => (
           <li key={item.id}>
-            {item.title} - ${item.price} - quantity:
-            {cart.getQuantity(item.id)}
+            {item.title} - ${item.price} - quantity: {item.quantity}
           </li>
         ))}
       </ul>

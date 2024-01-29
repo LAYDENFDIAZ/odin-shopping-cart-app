@@ -1,6 +1,22 @@
 import React from "react";
 
-function ProductCard({ id, title, description, category, price, image }) {
+interface ProductCardProps {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  image: string;
+}
+
+const ProductCard: React.FC<ProductCardProps> = ({
+  id,
+  title,
+  description,
+  category,
+  price,
+  image,
+}) => {
   return (
     <div key={id} className="card">
       <img src={image} alt={title} className="card-img-top" />
@@ -16,6 +32,6 @@ function ProductCard({ id, title, description, category, price, image }) {
       </div>
     </div>
   );
-}
+};
 
 export default ProductCard;

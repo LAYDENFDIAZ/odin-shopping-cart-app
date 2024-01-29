@@ -1,13 +1,21 @@
-// Home.js
-import React, { useEffect, useState } from "react";
+import { useState, useEffect } from "react";
 import ProductCard from "../components/ProductCard";
 import { downloadProducts } from "../data/productsApi";
 import ShoppingCart from "../components/ShoppingCart";
 import { createCart } from "../cart";
 import { Button } from "react-bootstrap";
 
+interface Product {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  price: number;
+  image: string;
+}
+
 function Home() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [cart, setCart] = useState(createCart());
 
   useEffect(() => {
@@ -15,55 +23,46 @@ function Home() {
     downloadProducts(setProducts);
 
     // Load cart items from local storage
-
     /*const storedCartItems = localStorage.getItem("cart");
     if (storedCartItems) {
       setCart(JSON.parse(storedCartItems));
     }*/
   }, []);
 
-  const addToCart = (product) => {
-    const updatedCart = cart;
-    updatedCart.addItem(product);
-    updatedCart.log();
-    // Update state
-    setCart({ ...updatedCart });
-
-    // Update local storage
-    //localStorage.setItem("cart", JSON.stringify([...cart, product]));
+  const addToCart = (product: Product) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      updatedCart.addItem(product);
+      updatedCart.log();
+      return updatedCart;
+    });
   };
 
-  const removeItemFromCart = (product) => {
-    const updatedCart = cart;
-    updatedCart.removeItem(product.id);
-    updatedCart.log();
-    // Update state
-    setCart({ ...updatedCart });
-
-    // Update local storage
-    //localStorage.setItem("cart", JSON.stringify([...cart, product]));
+  const removeItemFromCart = (product: Product) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      updatedCart.removeItem(product.id);
+      updatedCart.log();
+      return updatedCart;
+    });
   };
 
-  const increaseQuantity = (productId) => {
-    const updatedCart = cart;
-    updatedCart.increaseQuantity(productId);
-    updatedCart.log();
-    // Update state
-    setCart({ ...updatedCart });
-
-    // Update local storage
-    //localStorage.setItem("cart", JSON.stringify([...cart, product]));
+  const increaseQuantity = (productId: number) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      updatedCart.increaseQuantity(productId);
+      updatedCart.log();
+      return updatedCart;
+    });
   };
 
-  const decreaseQuantity = (productId) => {
-    const updatedCart = cart;
-    updatedCart.decreaseQuantity(productId);
-    updatedCart.log();
-    // Update state
-    setCart({ ...updatedCart });
-
-    // Update local storage
-    //localStorage.setItem("cart", JSON.stringify([...cart, product]));
+  const decreaseQuantity = (productId: number) => {
+    setCart((prevCart) => {
+      const updatedCart = { ...prevCart };
+      updatedCart.decreaseQuantity(productId);
+      updatedCart.log();
+      return updatedCart;
+    });
   };
 
   return (
